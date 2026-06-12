@@ -90,38 +90,6 @@ html[data-theme="light"] .bg-grid {
 .glow--1 { top: -80px; left: -50px; background: var(--primary); }
 .glow--2 { bottom: -100px; right: -40px; background: var(--secondary); }
 
-.loader {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(6, 10, 18, .94);
-  z-index: 999;
-  transition: opacity .45s ease, visibility .45s ease;
-}
-.loader.hidden { opacity: 0; visibility: hidden; }
-.loader__core, .loader__ring { position: absolute; border-radius: 50%; }
-.loader__core {
-  width: 72px; height: 72px;
-  background: radial-gradient(circle, var(--accent), var(--primary));
-  filter: blur(4px);
-}
-.loader__ring {
-  width: 120px; height: 120px;
-  border: 3px solid rgba(255,255,255,.12);
-  border-top-color: var(--primary);
-  animation: spin 1s linear infinite;
-}
-.loader__text {
-  transform: translateY(88px);
-  color: white;
-  letter-spacing: .14em;
-  font-size: .8rem;
-  text-transform: uppercase;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
 .site-header,
 .hero,
 .ticker-section,
