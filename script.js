@@ -1,17 +1,9 @@
-/* If DOM is ready but load is delayed, also force-hide loader */
-document.addEventListener("DOMContentLoaded", function () {
-  const loader = document.getElementById("loader");
-  if (loader) {
-    setTimeout(() => {
-      loader.style.opacity = "0";
-      loader.style.visibility = "hidden";
-      loader.style.pointerEvents = "none";
-      setTimeout(() => {
-        loader.style.display = "none";
-      }, 300);
-    }, 800);
-  }
-});
+/* =========================
+   PulseArena - Fixed Script
+   Solves loading issue
+========================= */
+
+/* ---------- Demo data ---------- */
 const updates = [
   {
     id: "football-1",
@@ -142,6 +134,7 @@ const tickerItems = [
   '🏎️ <strong>F1:</strong> Strategy window tightens ahead of the final qualifying run'
 ];
 
+/* ---------- Query elements safely ---------- */
 const root = document.documentElement;
 const cardsGrid = document.getElementById("cardsGrid");
 const searchInput = document.getElementById("searchInput");
@@ -174,44 +167,96 @@ const modalDescription = document.getElementById("modalDescription");
 const modalFavoriteBtn = document.getElementById("modalFavoriteBtn");
 const modalLikeBtn = document.getElementById("modalLikeBtn");
 
+/* ---------- State ---------- */
 let currentFilter = "all";
 let currentSearch = "";
 let currentSort = "default";
 let activeModalId = null;
 
+/* ---------- Local storage helpers ---------- */
 const storage = {
   getFavorites() {
-    return JSON.parse(localStorage.getItem("pulsearena-favorites") || "[]");
+    try {
+      return JSON.parse(localStorage.getItem("pulsearena-favorites") || "[]");
+    } catch {
+      return [];
+    }
   },
   setFavorites(value) {
-    localStorage.setItem("pulsearena-favorites", JSON.stringify(value));
+    try {
+      localStorage.setItem("pulsearena-favorites", JSON.stringify(value));
+    } catch {}
   },
   getLikes() {
-    return JSON.parse(localStorage.getItem("pulsearena-likes") || "{}");
+    try {
+      return JSON.parse(localStorage.getItem("pulsearena-likes") || "{}");
+    } catch {
+      return {};
+    }
   },
   setLikes(value) {
-    localStorage.setItem("pulsearena-likes", JSON.stringify(value));
+    try {
+      localStorage.setItem("pulsearena-likes", JSON.stringify(value));
+    } catch {}
   },
   getTheme() {
-    return localStorage.getItem("pulsearena-theme") || "dark";
+    try {
+      return localStorage.getItem("pulsearena-theme") || "dark";
+    } catch {
+      return "dark";
+    }
   },
   setTheme(value) {
-    localStorage.setItem("pulsearena-theme", value);
+    try {
+      localStorage.setItem("pulsearena-theme", value);
+    } catch {}
   }
 };
 
+/* ---------- Loader fix ---------- */
+function hideLoader() {
+  if (!loader) return;
+  loader.classList.add("hidden");
+  loader.style.opacity = "0";
+  loader.style.visibility = "hidden";
+  loader.style.pointerEvents = "none";
+  setTimeout(() => {
+    loader.style.display = "none";
+  }, 300);
+}
+
+/* Emergency fallback */
+window.addEventListener("load", () => {
+  setTimeout(hideLoader, 200);
+});
+
+/* ---------- Utility ---------- */
 function showToast(message) {
+  if (!toast) return;
   toast.textContent = message;
   toast.classList.remove("hidden");
+
   clearTimeout(showToast._timer);
-  showToast._timer = setTimeout(() => toast.classList.add("hidden"), 2200);
+  showToast._timer = setTimeout(() => {
+    toast.classList.add("hidden");
+  }, 2200);
 }
 
 function duplicateTicker() {
+  if (!tickerTrack) return;
   const items = [...tickerItems, ...tickerItems];
   tickerTrack.innerHTML = items
     .map(item => `<span class="ticker__item">${item}</span>`)
     .join("");
+}
+
+function setTheme(theme) {
+  if (!root) return;
+  root.setAttribute("data-theme", theme);
+  storage.setTheme(theme);
+  if (themeToggle) {
+    themeToggle.textContent = theme === "dark" ? "◐" : "◑";
+  }
 }
 
 function getLikesMap() {
@@ -222,12 +267,8 @@ function getFavoriteIds() {
   return storage.getFavorites();
 }
 
-function setTheme(theme) {
-  root.setAttribute("data-theme", theme);
-  storage.setTheme(theme);
-  if (themeToggle) {
-    themeToggle.textContent = theme === "dark" ? "◐" : "◑";
-  }
+function isFavorite(id) {
+  return getFavoriteIds().includes(id);
 }
 
 function getDisplayLikes(item) {
@@ -235,14 +276,30 @@ function getDisplayLikes(item) {
   return typeof likesMap[item.id] === "number" ? likesMap[item.id] : item.likes;
 }
 
-function isFavorite(id) {
-  return getFavoriteIds().includes(id);
+function capitalize(text) {
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  if (isNaN(date)) return dateStr;
+  return date.toLocaleDateString("en-IN", {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
+}
+
+/* ---------- Favorites ---------- */
+function updateFavoritesCount() {
+  if (!favoritesCount) return;
+  favoritesCount.textContent = getFavoriteIds().length;
 }
 
 function toggleFavorite(id) {
   const favorites = getFavoriteIds();
   const next = favorites.includes(id)
-    ? favorites.filter(value => value !== id)
+    ? favorites.filter(item => item !== id)
     : [...favorites, id];
 
   storage.setFavorites(next);
@@ -276,12 +333,7 @@ function incrementLike(id) {
   showToast("Update liked");
 }
 
-function updateFavoritesCount() {
-  if (favoritesCount) {
-    favoritesCount.textContent = getFavoriteIds().length;
-  }
-}
-
+/* ---------- Filter / sort ---------- */
 function getFilteredUpdates() {
   let result = [...updates];
 
@@ -314,20 +366,37 @@ function getFilteredUpdates() {
   return result;
 }
 
+function resetFilters() {
+  currentFilter = "all";
+  currentSearch = "";
+  currentSort = "default";
+
+  if (searchInput) searchInput.value = "";
+  if (sortSelect) sortSelect.value = "default";
+
+  filterButtons.forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.filter === "all");
+  });
+
+  renderCards();
+}
+
+/* ---------- Cards ---------- */
 function createCard(item) {
-  const article = document.createElement("article");
-  article.className = "update-card";
-  article.style.setProperty("--card-glow", item.glow);
+  const card = document.createElement("article");
+  card.className = "update-card";
+  card.style.setProperty("--card-glow", item.glow);
 
   const favoriteLabel = isFavorite(item.id) ? "★ Saved" : "☆ Favorite";
   const favoriteClass = isFavorite(item.id)
     ? "favorite-action is-favorite"
     : "favorite-action";
 
-  article.innerHTML = `
+  card.innerHTML = `
     <div class="update-card__head">
       <div class="update-card__icon" aria-hidden="true">${item.icon}</div>
-      <button class="${favoriteClass}" data-action="favorite" data-id="${item.id}" aria-label="Save update    <span class="tag-chip">${capitalize(item.sport)}</span>
+      <button class="${favoriteClass}" data-action="favorite" data-id="${item.idss="update-card__meta">
+      <span class="tag-chip">${capitalize(item.sport)}</span>
       <span class="tag-chip">${formatDate(item.date)}</span>
       <span class="tag-chip">${item.author}</span>
     </div>
@@ -341,8 +410,10 @@ function createCard(item) {
         <span>•</span>
         <span>${item.tags[0]}</span>
       </div>
+
       <div class="update-card__buttons">
-        <button class="card-action  <button class="card-action card-action--primary" data-action="details" data-id="${item.idorEach(btn => {
+        <button class="card-action"   </button>
+        <button class="card-action card-action--primary" data-action="details" data-idquerySelectorAll("button").forEach(btn => {
     btn.addEventListener("click", () => {
       const id = btn.dataset.id;
       const action = btn.dataset.action;
@@ -356,22 +427,25 @@ function createCard(item) {
     });
   });
 
-  return article;
+  return card;
 }
 
 function renderCards() {
   if (!cardsGrid) return;
 
-  const data = getFilteredUpdates();
+  const filtered = getFilteredUpdates();
   cardsGrid.innerHTML = "";
 
-  if (data.length === 0) {
+  if (filtered.length === 0) {
     if (emptyState) emptyState.classList.remove("hidden");
     return;
   }
 
   if (emptyState) emptyState.classList.add("hidden");
-  data.forEach(item => cardsGrid.appendChild(createCard(item)));
+
+  filtered.forEach(item => {
+    cardsGrid.appendChild(createCard(item));
+  });
 }
 
 function renderFavorites() {
@@ -400,9 +474,7 @@ function renderFavorites() {
         <p>${item.summary}</p>
       </div>
       <div class="favorite-card__actions">
-        <button class="card-action" data-action="open" data-id="${item.id`;
-
-    card.querySelectorAll("button").forEach(btn => {
+        <button class="card-action" data-action="open"ite-action is-favorite" data-action="remove" data-id="${").forEach(btn => {
       btn.addEventListener("click", () => {
         const id = btn.dataset.id;
 
@@ -421,27 +493,31 @@ function renderFavorites() {
   });
 }
 
+/* ---------- Modal ---------- */
+function syncModalButtons(id) {
+  if (!modalFavoriteBtn) return;
+  modalFavoriteBtn.textContent = isFavorite(id)
+    ? "★ Remove from Favorites"
+    : "★ Save to Favorites";
+}
+
 function openModal(item) {
   if (!modal) return;
 
   activeModalId = item.id;
-  modalBadge.textContent = `${item.icon} ${capitalize(item.sport)}`;
-  modalTitle.textContent = item.title;
-  modalMeta.textContent = `${formatDate(item.date)} • ${item.author} • ♥ ${getDisplayLikes(item)}`;
-  modalDescription.textContent = item.description;
+
+  if (modalBadge) modalBadge.textContent = `${item.icon} ${capitalize(item.sport)}`;
+  if (modalTitle) modalTitle.textContent = item.title;
+  if (modalMeta) {
+    modalMeta.textContent = `${formatDate(item.date)} • ${item.author} • ♥ ${getDisplayLikes(item)}`;
+  }
+  if (modalDescription) modalDescription.textContent = item.description;
 
   modal.classList.remove("hidden");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
 
   syncModalButtons(item.id);
-}
-
-function syncModalButtons(id) {
-  if (!modalFavoriteBtn) return;
-  modalFavoriteBtn.textContent = isFavorite(id)
-    ? "★ Remove from Favorites"
-    : "★ Save to Favorites";
 }
 
 function closeModal() {
@@ -453,201 +529,155 @@ function closeModal() {
   activeModalId = null;
 }
 
-function formatDate(dateStr) {
-  return new Date(dateStr).toLocaleDateString("en-IN", {
-    year: "numeric",
-    month: "short",
-    day: "numeric"
-  });
-}
-
-function capitalize(value) {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
-function resetFilters() {
-  currentFilter = "all";
-  currentSearch = "";
-  currentSort = "default";
-
-  if (searchInput) searchInput.value = "";
-  if (sortSelect) sortSelect.value = "default";
+/* ---------- Event bindings ---------- */
+function bindEvents() {
+  if (searchInput) {
+    searchInput.addEventListener("input", e => {
+      currentSearch = e.target.value;
+      renderCards();
+    });
+  }
 
   filterButtons.forEach(btn => {
-    btn.classList.toggle("active", btn.dataset.filter === "all");
+    btn.addEventListener("click", () => {
+      currentFilter = btn.dataset.filter;
+      filterButtons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      renderCards();
+    });
   });
 
-  renderCards();
+  if (sortSelect) {
+    sortSelect.addEventListener("change", e => {
+      currentSort = e.target.value;
+      renderCards();
+    });
+  }
+
+  if (resetFiltersBtn) {
+    resetFiltersBtn.addEventListener("click", resetFilters);
+  }
+
+  if (clearFavoritesBtn) {
+    clearFavoritesBtn.addEventListener("click", () => {
+      storage.setFavorites([]);
+      renderFavorites();
+      renderCards();
+      updateFavoritesCount();
+      showToast("Favorites cleared");
+    });
+  }
+
+  if (favoritesSummaryBtn) {
+    favoritesSummaryBtn.addEventListener("click", () => {
+      const section = document.getElementById("favorites");
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    });
+  }
+
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      setTheme(next);
+    });
+  }
+
+  if (mobileMenuBtn && siteNav) {
+    mobileMenuBtn.addEventListener("click", () => {
+      siteNav.classList.toggle("open");
+    });
+  }
+
+  document.querySelectorAll(".site-nav a").forEach(link => {
+    link.addEventListener("click", () => {
+      if (siteNav) siteNav.classList.remove("open");
+    });
+  });
+
+  if (modalOverlay) modalOverlay.addEventListener("click", closeModal);
+  if (modalCloseBtn) modalCloseBtn.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && modal && !modal.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+
+  if (modalFavoriteBtn) {
+    modalFavoriteBtn.addEventListener("click", () => {
+      if (!activeModalId) return;
+      toggleFavorite(activeModalId);
+    });
+  }
+
+  if (modalLikeBtn) {
+    modalLikeBtn.addEventListener("click", () => {
+      if (!activeModalId) return;
+      incrementLike(activeModalId);
+    });
+  }
+
+  if (contactForm) {
+    contactForm.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const name = document.getElementById("nameInput")?.value.trim() || "";
+      const email = document.getElementById("emailInput")?.value.trim() || "";
+      const sport = document.getElementById("sportInput")?.value.trim() || "";
+      const message = document.getElementById("messageInput")?.value.trim() || "";
+
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (!name || !email || !sport) {
+        if (formFeedback) {
+          formFeedback.textContent = "Please fill name, email, and favorite sport.";
+          formFeedback.className = "form-feedback error";
+        }
+        return;
+      }
+
+      if (!emailPattern.test(email)) {
+        if (formFeedback) {
+          formFeedback.textContent = "Please enter a valid email address.";
+          formFeedback.className = "form-feedback error";
+        }
+        return;
+      }
+
+      if (formFeedback) {
+        formFeedback.textContent = `Thanks ${name}! You are subscribed for ${sport} updates${
+          message ? " and your message is saved locally in this demo." : "."
+        }`;
+        formFeedback.className = "form-feedback success";
+      }
+
+      contactForm.reset();
+      showToast("Form submitted successfully");
+    });
+  }
 }
 
-/* Search */
-if (searchInput) {
-  searchInput.addEventListener("input", event => {
-    currentSearch = event.target.value;
+/* ---------- Init ---------- */
+function initApp() {
+  try {
+    setTheme(storage.getTheme());
+    duplicateTicker();
+
+    if (currentYear) {
+      currentYear.textContent = new Date().getFullYear();
+    }
+
     renderCards();
-  });
-}
-
-/* Filters */
-filterButtons.forEach(btn => {
-  btn.addEventListener("click", () => {
-    currentFilter = btn.dataset.filter;
-
-    filterButtons.forEach(node => node.classList.remove("active"));
-    btn.classList.add("active");
-
-    renderCards();
-  });
-});
-
-/* Sort */
-if (sortSelect) {
-  sortSelect.addEventListener("change", event => {
-    currentSort = event.target.value;
-    renderCards();
-  });
-}
-
-/* Reset */
-if (resetFiltersBtn) {
-  resetFiltersBtn.addEventListener("click", resetFilters);
-}
-
-/* Clear favorites */
-if (clearFavoritesBtn) {
-  clearFavoritesBtn.addEventListener("click", () => {
-    storage.setFavorites([]);
     renderFavorites();
-    renderCards();
     updateFavoritesCount();
-    showToast("Favorites cleared");
-  });
-}
-
-/* Favorites summary button */
-if (favoritesSummaryBtn) {
-  favoritesSummaryBtn.addEventListener("click", () => {
-    const favoritesSection = document.getElementById("favorites");
-    if (favoritesSection) {
-      favoritesSection.scrollIntoView({ behavior: "smooth" });
-    }
-  });
-}
-
-/* Theme toggle */
-if (themeToggle) {
-  themeToggle.addEventListener("click", () => {
-    const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-    setTheme(next);
-  });
-}
-
-/* Mobile menu */
-if (mobileMenuBtn) {
-  mobileMenuBtn.addEventListener("click", () => {
-    if (siteNav) siteNav.classList.toggle("open");
-  });
-}
-
-document.querySelectorAll(".site-nav a").forEach(link => {
-  link.addEventListener("click", () => {
-    if (siteNav) siteNav.classList.remove("open");
-  });
-});
-
-/* Modal close */
-if (modalOverlay) modalOverlay.addEventListener("click", closeModal);
-if (modalCloseBtn) modalCloseBtn.addEventListener("click", closeModal);
-
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape" && modal && !modal.classList.contains("hidden")) {
-    closeModal();
+    bindEvents();
+  } catch (err) {
+    console.error("App init error:", err);
+  } finally {
+    setTimeout(hideLoader, 600);
   }
-});
-
-/* Modal buttons */
-if (modalFavoriteBtn) {
-  modalFavoriteBtn.addEventListener("click", () => {
-    if (!activeModalId) return;
-    toggleFavorite(activeModalId);
-  });
 }
 
-if (modalLikeBtn) {
-  modalLikeBtn.addEventListener("click", () => {
-    if (!activeModalId) return;
-    incrementLike(activeModalId);
-  });
-}
-
-/* Contact form */
-if (contactForm) {
-  contactForm.addEventListener("submit", event => {
-    event.preventDefault();
-
-    const name = document.getElementById("nameInput")?.value.trim() || "";
-    const email = document.getElementById("emailInput")?.value.trim() || "";
-    const sport = document.getElementById("sportInput")?.value.trim() || "";
-    const message = document.getElementById("messageInput")?.value.trim() || "";
-
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!name || !email || !sport) {
-      if (formFeedback) {
-        formFeedback.textContent = "Please fill name, email, and favorite sport.";
-        formFeedback.className = "form-feedback error";
-      }
-      return;
-    }
-
-    if (!emailPattern.test(email)) {
-      if (formFeedback) {
-        formFeedback.textContent = "Please enter a valid email address.";
-        formFeedback.className = "form-feedback error";
-      }
-      return;
-    }
-
-    if (formFeedback) {
-      formFeedback.textContent = `Thanks ${name}! You are subscribed for ${sport} updates${
-        message ? " and your message is saved locally in this demo." : "."
-      }`;
-      formFeedback.className = "form-feedback success";
-    }
-
-    contactForm.reset();
-    showToast("Form submitted successfully");
-  });
-}
-
-/* Init */
-window.addEventListener("load", () => {
-  setTheme(storage.getTheme());
-  duplicateTicker();
-
-  if (currentYear) {
-    currentYear.textContent = new Date().getFullYear();
-  }
-
-  renderCards();
-  renderFavorites();
-  updateFavoritesCount();
-
-  if (loader) {
-    setTimeout(() => loader.classList.add("hidden"), 550);
-  }
-});
-/* ===== EMERGENCY LOADER FIX ===== */
-window.addEventListener("load", function () {
-  const loader = document.getElementById("loader");
-  if (loader) {
-    loader.style.opacity = "0";
-    loader.style.visibility = "hidden";
-    loader.style.pointerEvents = "none";
-    setTimeout(() => {
-      loader.style.display = "none";
-    }, 300);
-  }
-});
-
-
+document.addEventListener("DOMContentLoaded", initApp);
