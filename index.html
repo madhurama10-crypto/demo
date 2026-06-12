@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="PulseArena — futuristic sports updates dashboard with search, filters, favorites, theme toggle, live ticker, and contact form." />
+  <title>PulseArena | Pro Sports Updates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="loader" class="loader" aria-hidden="true">
+    <div class="loader__core"></div>
+    <div class="loader__ring"></div>
+    <div class="loader__text">Loading PulseArena</div>
+  </div>
+
+  <div class="bg-grid"></div>
+  <div class="glow glow--1"></div>
+  <div class="glow glow--2"></div>
+
+  <header class="site-header" id="top">
+    <div class="brand-wrap">
+      <button id="mobileMenuBtn" class="icon-btn mobile-only" aria-label="Open menu">☰</button>
+      <a href="#top" class="brand">
+        <span class="brand__mark"></span>
+        <span class="brand__text">PulseArena</span>
+      </a>
+    </div>
+
+    <nav id="siteNav" class="site-nav" aria-label="Primary navigation">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#updates">Updates</a>
+      <a href="#favorites">Favorites</a>
+      <a href="#community">Community</a>
+      <a href="#connect">Connect</a>
+    </nav>
+
+    <div class="header-actions">
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">◐</button>
+      <button id="favoritesSummaryBtn" class="chip-btn" aria-label="Open favorites">★ <span id="favoritesCount">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero__content">
+        <span class="eyebrow">PREMIUM • FUTURISTIC • PRACTICAL</span>
+        <h1>Sports updates,<br />re-designed for maximum flex.</h1>
+        <p>
+          A clean, high-end sports updates experience with live-style tickers, advanced filters,
+          theme switching, favorites, quick views, and a pro dashboard feel.
+        </p>
+        <div class="hero__actions">
+          <a href="#updates" class="btn btn--primary">Explore Updates</a>
+          <a href="#connect" class="btn btn--secondary">Join Community</a>
+        </div>
+        <div class="hero__metrics">
+          <article class="metric-card">
+            <span class="metric-card__label">Coverage</span>
+            <strong>4 Sports</strong>
+            <small>Football • Cricket • Basketball • F1</small>
+          </article>
+          <article class="metric-card">
+            <span class="metric-card__label">Fan Tools</span>
+            <strong>7 Features</strong>
+            <small>Search, filter, sort, modal, likes, theme, form</small>
+          </article>
+        </div>
+      </div>
+
+      <aside class="hero__panel" id="dashboard">
+        <div class="glass-panel glass-panel--hero">
+          <div class="panel-head">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="panel-body">
+            <span class="eyebrow eyebrow--small">LIVE MODE</span>
+            <h2>Matchday Console</h2>
+            <div class="score-stack">
+              <article class="score-card score-card--accent">
+                <div>
+                  <p>Football</p>
+                  <h3>Neon FC vs Metro XI</h3>
+                </div>
+                <strong>2 - 1</strong>
+              </article>
+              <article class="score-card">
+                <div>
+                  <p>Cricket</p>
+                  <h3>Titans 184/6</h3>
+                </div>
+                <strong>18.4 ov</strong>
+              </article>
+              <article class="score-card">
+                <div>
+                  <p>Formula 1</p>
+                  <h3>Night Circuit GP</h3>
+                </div>
+                <strong>LAP 42</strong>
+              </article>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="ticker-section" aria-label="Sports ticker">
+      <div class="ticker">
+        <div class="ticker__track" id="tickerTrack"></div>
+      </div>
+    </section>
+
+    <section class="dashboard-row">
+      <article class="dashboard-card">
+        <span class="dashboard-card__tag">Trending</span>
+        <h3>Transfer Watch</h3>
+        <p>Track major moves, shortlist targets, rumored switches, and last-minute signings.</p>
+      </article>
+      <article class="dashboard-card">
+        <span class="dashboard-card__tag">Performance</span>
+        <h3>Power Rankings</h3>
+        <p>View momentum-based rankings with clean visuals and category-based updates.</p>
+      </article>
+      <article class="dashboard-card">
+        <span class="dashboard-card__tag">Analysis</span>
+        <h3>Quick Breakdowns</h3>
+        <p>Short, readable, professional update cards that feel premium on desktop and mobile.</p>
+      </article>
+    </section>
+
+    <section class="controls-section" id="updates">
+      <div class="section-header">
+        <span class="eyebrow eyebrow--small">SMART FILTERS</span>
+        <h2>Top Sports Updates</h2>
+        <p>
+          Demo content is included as placeholder updates so the website works offline and avoids broken images.
+          You can replace the sample cards with real content later.
+        </p>
+      </div>
+
+      <div class="control-bar">
+        <div class="search-box">
+          <span>⌕</span>
+          <input id="searchInput" type="text" placeholder="Search updates, tags, or sport..." aria-label="Search updates" />
+        </div>
+
+        <div class="filter-group" id="filterGroup" role="tablist" aria-label="Sports categories">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="football">Football</button>
+          <button class="filter-btn" data-filter="cricket">Cricket</button>
+          <button class="filter-btn" data-filter="basketball">Basketball</button>
+          <button class="filter-btn" data-filter="f1">F1</button>
+        </div>
+
+        <div class="sort-box">
+          <select id="sortSelect" aria-label="Sort updates">
+            <option value="default">Sort: Featured</option>
+            <option value="newest">Sort: Newest</option>
+            <option value="liked">Sort: Most liked</option>
+            <option value="az">Sort: A → Z</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="cards-wrapper">
+      <div id="cardsGrid" class="cards-grid"></div>
+      <div id="emptyState" class="empty-state hidden">
+        <h3>No updates matched your search</h3>
+        <p>Try another sport, reset the filters, or search a different keyword.</p>
+        <button id="resetFiltersBtn" class="btn btn--primary">Reset Filters</button>
+      </div>
+    </section>
+
+    <section class="favorites-pane" id="favorites">
+      <div class="section-header section-header--inline">
+        <div>
+          <span class="eyebrow eyebrow--small">YOUR PICKS</span>
+          <h2>Saved Favorites</h2>
+        </div>
+        <button id="clearFavoritesBtn" class="btn btn--secondary btn--sm">Clear Favorites</button>
+      </div>
+      <div id="favoritesList" class="favorites-list"></div>
+      <div id="favoritesEmpty" class="empty-mini">
+        <p>No favorites yet. Tap the ★ button on any update to save it here.</p>
+      </div>
+    </section>
+
+    <section class="testimonials" id="community">
+      <div class="section-header">
+        <span class="eyebrow eyebrow--small">COMMUNITY FEEL</span>
+        <h2>Why this design hits hard</h2>
+        <p>Clean, futuristic, mobile-friendly, and made to look polished enough for a portfolio flex.</p>
+      </div>
+      <div class="testimonial-grid">
+        <article class="testimonial-card">
+          <div class="quote-mark">“</div>
+          <p>The UI feels like a sports app and a premium dashboard had a child.</p>
+          <span>Design feedback</span>
+        </article>
+        <article class="testimonial-card">
+          <div class="quote-mark">“</div>
+          <p>Fast to understand, easy to edit, and looks expensive even with simple files.</p>
+          <span>Developer note</span>
+        </article>
+        <article class="testimonial-card">
+          <div class="quote-mark">“</div>
+          <p>No broken pics, no clutter, just clean motion and strong hierarchy.</p>
+          <span>Deployment win</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="connect-section" id="connect">
+      <div class="connect-card">
+        <div>
+          <span class="eyebrow eyebrow--small">CONTACT / NEWSLETTER</span>
+          <h2>Join the next wave of updates</h2>
+          <p>
+            This form works on the front end with validation and success feedback. If you want,
+            you can later connect it to Formspree, EmailJS, or a backend.
+          </p>
+        </div>
+        <form id="contactForm" class="contact-form" novalidate>
+          <label>
+            Name
+            <input type="text" id="nameInput" placeholder="Enter your name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" id="emailInput" placeholder="Enter your email" required />
+          </label>
+          <label>
+            Favorite Sport
+            <select id="sportInput" required>
+              <option value="">Select one</option>
+              <option value="Football">Football</option>
+              <option value="Cricket">Cricket</option>
+              <option value="Basketball">Basketball</option>
+              <option value="F1">F1</option>
+            </select>
+          </label>
+          <label>
+            Message
+            <textarea id="messageInput" rows="4" placeholder="Tell us what updates you want..."></textarea>
+          </label>
+          <button type="submit" class="btn btn--primary">Send Message</button>
+          <p id="formFeedback" class="form-feedback"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="currentYear"></span> PulseArena • Futuristic Sports Updates Demo</p>
+  </footer>
+
+  <div id="detailsModal" class="modal hidden" aria-hidden="true" role="dialog" aria-labelledby="modalTitle">
+    <div class="modal__overlay" id="modalOverlay"></div>
+    <div class="modal__card">
+      <button id="modalCloseBtn" class="icon-btn modal__close" aria-label="Close details">✕</button>
+      <div class="modal__header">
+        <span id="modalBadge" class="modal__badge"></span>
+        <h3 id="modalTitle"></h3>
+        <p id="modalMeta" class="modal__meta"></p>
+      </div>
+      <div class="modal__body">
+        <p id="modalDescription"></p>
+        <div class="modal__actions">
+          <button id="modalFavoriteBtn" class="btn btn--secondary btn--sm">★ Save to Favorites</button>
+          <button id="modalLikeBtn" class="btn btn--primary btn--sm">♥ Like Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
