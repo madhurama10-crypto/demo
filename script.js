@@ -4,6 +4,22 @@
 ========================= */
 
 /* ---------- Demo data ---------- */
+/* FORCE REMOVE LOADER - NO MATTER WHAT */
+(function () {
+  function removeLoader() {
+    const loader = document.getElementById("loader");
+    if (loader) {
+      loader.style.display = "none";
+    }
+  }
+
+  // Run multiple times to guarantee removal
+  document.addEventListener("DOMContentLoaded", removeLoader);
+  window.addEventListener("load", removeLoader);
+  setTimeout(removeLoader, 500);
+  setTimeout(removeLoader, 1500);
+})();
+``
 const updates = [
   {
     id: "football-1",
