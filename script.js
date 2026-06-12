@@ -1,3 +1,17 @@
+/* If DOM is ready but load is delayed, also force-hide loader */
+document.addEventListener("DOMContentLoaded", function () {
+  const loader = document.getElementById("loader");
+  if (loader) {
+    setTimeout(() => {
+      loader.style.opacity = "0";
+      loader.style.visibility = "hidden";
+      loader.style.pointerEvents = "none";
+      setTimeout(() => {
+        loader.style.display = "none";
+      }, 300);
+    }, 800);
+  }
+});
 const updates = [
   {
     id: "football-1",
@@ -636,17 +650,4 @@ window.addEventListener("load", function () {
   }
 });
 
-/* If DOM is ready but load is delayed, also force-hide loader */
-document.addEventListener("DOMContentLoaded", function () {
-  const loader = document.getElementById("loader");
-  if (loader) {
-    setTimeout(() => {
-      loader.style.opacity = "0";
-      loader.style.visibility = "hidden";
-      loader.style.pointerEvents = "none";
-      setTimeout(() => {
-        loader.style.display = "none";
-      }, 300);
-    }, 800);
-  }
-});
+
