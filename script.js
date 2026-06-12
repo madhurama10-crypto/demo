@@ -1,36 +1,14 @@
-/* =========================
-   PulseArena - Fixed Script
-   Solves loading issue
-========================= */
-
-/* ---------- Demo data ---------- */
-/* FORCE REMOVE LOADER - NO MATTER WHAT */
-(function () {
-  function removeLoader() {
-    const loader = document.getElementById("loader");
-    if (loader) {
-      loader.style.display = "none";
-    }
-  }
-
-  // Run multiple times to guarantee removal
-  document.addEventListener("DOMContentLoaded", removeLoader);
-  window.addEventListener("load", removeLoader);
-  setTimeout(removeLoader, 500);
-  setTimeout(removeLoader, 1500);
-})();
-``
 const updates = [
   {
     id: "football-1",
     sport: "football",
     icon: "⚽",
-    glow: "#65d4ff",
+    glow: "#58d6ff",
     title: "Midfield Engine takes over the derby in a tactical masterclass",
     summary:
       "A compact block, one decisive overlap, and a late press swing the match in dramatic style.",
     description:
-      "This sample football update is written as placeholder content, designed to show how rich editorial cards can look without depending on external images. The layout focuses on hierarchy, readability, and premium motion. Replace this text later with your own match analysis, club news, or transfer updates.",
+      "This football update is sample content designed to show a premium sports dashboard without depending on external images. Replace this text later with your own match analysis, club news, or transfer updates.",
     author: "Desk Analysis",
     date: "2026-06-12",
     likes: 184,
@@ -45,7 +23,7 @@ const updates = [
     summary:
       "Big saves, calm distribution, and elite positioning turn danger into confidence all night.",
     description:
-      "This update card demonstrates a professional storytelling format for football news. It is intentionally crafted as demo content so the website remains functional offline and avoids broken assets. You can swap in real articles later or connect the cards to a live sports API.",
+      "This update card demonstrates a professional storytelling format for football news. It uses static placeholder content so the site works reliably without broken media.",
     author: "Matchday Wire",
     date: "2026-06-10",
     likes: 121,
@@ -60,7 +38,7 @@ const updates = [
     summary:
       "A disciplined chase becomes chaos in the death overs as clean timing changes the whole mood.",
     description:
-      "This placeholder cricket update is built to show rich UI interactions: category filtering, sorting, quick actions, favorites, and modal details. The copy is demo text only so you can safely use the site as a sample project before plugging in real score feeds or articles.",
+      "This cricket update is placeholder content built to show rich UI interactions like search, sorting, quick actions, favorites, and modal details.",
     author: "Cricket Hub",
     date: "2026-06-11",
     likes: 236,
@@ -70,12 +48,12 @@ const updates = [
     id: "cricket-2",
     sport: "cricket",
     icon: "🎯",
-    glow: "#ff6a88",
+    glow: "#ff6b88",
     title: "New-ball burst crushes the top order in a powerplay ambush",
     summary:
       "Sharp movement, attacking fields, and fearless intent trigger a collapse before the rebuild starts.",
     description:
-      "Use this card to present bowling analysis, squad updates, venue notes, or pre-match insight. The design uses icon-led storytelling instead of image thumbnails, which keeps the site reliable even when external image links are unavailable.",
+      "Use this card style for bowling analysis, squad notes, venue previews, or pre-match insight. The design stays reliable without depending on image thumbnails.",
     author: "Powerplay Desk",
     date: "2026-06-08",
     likes: 147,
@@ -90,7 +68,7 @@ const updates = [
     summary:
       "Transition speed, strong ball movement, and a ruthless scoring burst seal the night.",
     description:
-      "This sample basketball story card shows how a clean sports website can feel premium without heavy libraries or broken media. The content is demo text and can later be replaced by real game recaps, player notes, or rankings pulled from an API.",
+      "This basketball story card shows how a clean sports website can feel premium without heavy libraries or broken media.",
     author: "Hoops Pulse",
     date: "2026-06-09",
     likes: 178,
@@ -100,12 +78,12 @@ const updates = [
     id: "basketball-2",
     sport: "basketball",
     icon: "📈",
-    glow: "#65d4ff",
+    glow: "#58d6ff",
     title: "Bench unit shifts the tempo and rewrites the matchup blueprint",
     summary:
       "Spacing improves, second-unit chemistry clicks, and the rotation suddenly looks dangerous.",
     description:
-      "This card is another placeholder story crafted to make the interface feel like a polished sports magazine. It works great for team news, trade reactions, stat summaries, or fan-focused explainer content.",
+      "This card works well for team news, stat summaries, fan explainers, or strategy-focused content.",
     author: "Court Report",
     date: "2026-06-07",
     likes: 97,
@@ -115,12 +93,12 @@ const updates = [
     id: "f1-1",
     sport: "f1",
     icon: "🏎️",
-    glow: "#ff6a88",
+    glow: "#ff6b88",
     title: "Undercut timing and tire control decide a brutal night race duel",
     summary:
       "A smart pit sequence and consistent sector pace turn strategy into a headline win.",
     description:
-      "This F1 update card is built for a futuristic dashboard experience. It demonstrates a premium card layout with compact metadata, headline emphasis, and modal-ready details. The article text is sample content that you can later replace with real race updates.",
+      "This Formula 1 update card demonstrates a premium motorsport layout with clean metadata and strong headline emphasis.",
     author: "Track Intel",
     date: "2026-06-12",
     likes: 204,
@@ -135,7 +113,7 @@ const updates = [
     summary:
       "Micro gains in the final sector reveal who really found performance overnight.",
     description:
-      "This placeholder story helps you showcase a functional motorsport sidebar or article section. Because the project avoids fragile image dependencies, it remains professional and fast while still feeling premium and visually rich.",
+      "This placeholder story is perfect for showing motorsport analysis, qualifiers, paddock notes, or team previews.",
     author: "Paddock Signal",
     date: "2026-06-06",
     likes: 133,
@@ -150,7 +128,6 @@ const tickerItems = [
   '🏎️ <strong>F1:</strong> Strategy window tightens ahead of the final qualifying run'
 ];
 
-/* ---------- Query elements safely ---------- */
 const root = document.documentElement;
 const cardsGrid = document.getElementById("cardsGrid");
 const searchInput = document.getElementById("searchInput");
@@ -166,7 +143,6 @@ const clearFavoritesBtn = document.getElementById("clearFavoritesBtn");
 const favoritesSummaryBtn = document.getElementById("favoritesSummaryBtn");
 const currentYear = document.getElementById("currentYear");
 const themeToggle = document.getElementById("themeToggle");
-const loader = document.getElementById("loader");
 const mobileMenuBtn = document.getElementById("mobileMenuBtn");
 const siteNav = document.getElementById("siteNav");
 const contactForm = document.getElementById("contactForm");
@@ -183,13 +159,11 @@ const modalDescription = document.getElementById("modalDescription");
 const modalFavoriteBtn = document.getElementById("modalFavoriteBtn");
 const modalLikeBtn = document.getElementById("modalLikeBtn");
 
-/* ---------- State ---------- */
 let currentFilter = "all";
 let currentSearch = "";
 let currentSort = "default";
 let activeModalId = null;
 
-/* ---------- Local storage helpers ---------- */
 const storage = {
   getFavorites() {
     try {
@@ -229,29 +203,10 @@ const storage = {
   }
 };
 
-/* ---------- Loader fix ---------- */
-function hideLoader() {
-  if (!loader) return;
-  loader.classList.add("hidden");
-  loader.style.opacity = "0";
-  loader.style.visibility = "hidden";
-  loader.style.pointerEvents = "none";
-  setTimeout(() => {
-    loader.style.display = "none";
-  }, 300);
-}
-
-/* Emergency fallback */
-window.addEventListener("load", () => {
-  setTimeout(hideLoader, 200);
-});
-
-/* ---------- Utility ---------- */
 function showToast(message) {
   if (!toast) return;
   toast.textContent = message;
   toast.classList.remove("hidden");
-
   clearTimeout(showToast._timer);
   showToast._timer = setTimeout(() => {
     toast.classList.add("hidden");
@@ -262,12 +217,11 @@ function duplicateTicker() {
   if (!tickerTrack) return;
   const items = [...tickerItems, ...tickerItems];
   tickerTrack.innerHTML = items
-    .map(item => `<span class="ticker__item">${item}</span>`)
+    .map(item => `<span class="ticker-item">${item}</span>`)
     .join("");
 }
 
 function setTheme(theme) {
-  if (!root) return;
   root.setAttribute("data-theme", theme);
   storage.setTheme(theme);
   if (themeToggle) {
@@ -306,7 +260,6 @@ function formatDate(dateStr) {
   });
 }
 
-/* ---------- Favorites ---------- */
 function updateFavoritesCount() {
   if (!favoritesCount) return;
   favoritesCount.textContent = getFavoriteIds().length;
@@ -349,7 +302,6 @@ function incrementLike(id) {
   showToast("Update liked");
 }
 
-/* ---------- Filter / sort ---------- */
 function getFilteredUpdates() {
   let result = [...updates];
 
@@ -397,7 +349,6 @@ function resetFilters() {
   renderCards();
 }
 
-/* ---------- Cards ---------- */
 function createCard(item) {
   const card = document.createElement("article");
   card.className = "update-card";
@@ -409,9 +360,11 @@ function createCard(item) {
     : "favorite-action";
 
   card.innerHTML = `
-    <div class="update-card__head">
-      <div class="update-card__icon" aria-hidden="true">${item.icon}</div>
-      <button class="${favoriteClass}" data-action="favorite" data-id="${item.idss="update-card__meta">
+    <div class="update-card-head">
+      <div class="update-card-icon" aria-hidden="true">${item.icon}</div>
+      <button class="${favoriteClass}" data-action="favorite" data
+
+    <div class="update-card-meta">
       <span class="tag-chip">${capitalize(item.sport)}</span>
       <span class="tag-chip">${formatDate(item.date)}</span>
       <span class="tag-chip">${item.author}</span>
@@ -420,16 +373,17 @@ function createCard(item) {
     <h3>${item.title}</h3>
     <p>${item.summary}</p>
 
-    <div class="update-card__footer">
-      <div class="update-card__stats">
+    <div class="update-card-footer">
+      <div class="update-card-stats">
         <span>♥ ${getDisplayLikes(item)}</span>
         <span>•</span>
         <span>${item.tags[0]}</span>
       </div>
 
-      <div class="update-card__buttons">
-        <button class="card-action"   </button>
-        <button class="card-action card-action--primary" data-action="details" data-idquerySelectorAll("button").forEach(btn => {
+      <div class="update-card-buttons">
+        <button class="card-action" data-action="like" data-id="${item.idrd-action card-action-primary" data-action="details;
+
+  card.querySelectorAll("button").forEach(btn => {
     btn.addEventListener("click", () => {
       const id = btn.dataset.id;
       const action = btn.dataset.action;
@@ -489,7 +443,7 @@ function renderFavorites() {
         <h4>${item.title}</h4>
         <p>${item.summary}</p>
       </div>
-      <div class="favorite-card__actions">
+      <div class="favorite-card-actions">
         <button class="card-action" data-action="open"ite-action is-favorite" data-action="remove" data-id="${").forEach(btn => {
       btn.addEventListener("click", () => {
         const id = btn.dataset.id;
@@ -509,7 +463,6 @@ function renderFavorites() {
   });
 }
 
-/* ---------- Modal ---------- */
 function syncModalButtons(id) {
   if (!modalFavoriteBtn) return;
   modalFavoriteBtn.textContent = isFavorite(id)
@@ -545,7 +498,6 @@ function closeModal() {
   activeModalId = null;
 }
 
-/* ---------- Event bindings ---------- */
 function bindEvents() {
   if (searchInput) {
     searchInput.addEventListener("input", e => {
@@ -663,9 +615,7 @@ function bindEvents() {
       }
 
       if (formFeedback) {
-        formFeedback.textContent = `Thanks ${name}! You are subscribed for ${sport} updates${
-          message ? " and your message is saved locally in this demo." : "."
-        }`;
+        formFeedback.textContent = `Thanks ${name}! You are subscribed for ${sport} updates${message ? " and your message is saved locally in this demo." : "."}`;
         formFeedback.className = "form-feedback success";
       }
 
@@ -675,25 +625,18 @@ function bindEvents() {
   }
 }
 
-/* ---------- Init ---------- */
 function initApp() {
-  try {
-    setTheme(storage.getTheme());
-    duplicateTicker();
+  setTheme(storage.getTheme());
+  duplicateTicker();
 
-    if (currentYear) {
-      currentYear.textContent = new Date().getFullYear();
-    }
-
-    renderCards();
-    renderFavorites();
-    updateFavoritesCount();
-    bindEvents();
-  } catch (err) {
-    console.error("App init error:", err);
-  } finally {
-    setTimeout(hideLoader, 600);
+  if (currentYear) {
+    currentYear.textContent = new Date().getFullYear();
   }
+
+  renderCards();
+  renderFavorites();
+  updateFavoritesCount();
+  bindEvents();
 }
 
 document.addEventListener("DOMContentLoaded", initApp);
