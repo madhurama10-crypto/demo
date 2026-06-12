@@ -5,26 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta
     name="description"
-    content="PulseArena — futuristic sports updates website with search, filters, favorites, likes, theme toggle, live ticker and contact form."
+    content="PulseArena — futuristic sports updates website with search, filters, favorites, likes, theme toggle, ticker and contact form."
   />
   <title>PulseArena | Sports Updates</title>
-
-  <!-- Correct CSS link -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Loader -->
-  <div id="loader" class="loader">
-    <div class="loader__core"></div>
-    <div class="loader__ring"></div>
-    <div class="loader__text">Loading PulseArena</div>
-  </div>
-
-  <!-- Background effects -->
   <div class="bg-grid"></div>
-  <div class="glow glow--1"></div>
-  <div class="glow glow--2"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
 
   <!-- Header -->
   <header class="site-header" id="top">
@@ -34,8 +23,8 @@
       </button>
 
       <a href="#top" class="brand">
-        <span class="brand__mark"></span>
-        <span class="brand__text">PulseArena</span>
+        <span class="brand-mark"></span>
+        <span class="brand-text">PulseArena</span>
       </a>
     </div>
 
@@ -48,10 +37,7 @@
     </nav>
 
     <div class="header-actions">
-      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">
-        ◐
-      </button>
-
+      <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">◐</button>
       <button id="favoritesSummaryBtn" class="chip-btn" aria-label="Open favorites">
         ★ <span id="favoritesCount">0</span>
       </button>
@@ -61,46 +47,46 @@
   <main>
     <!-- Hero -->
     <section class="hero">
-      <div class="hero__content">
+      <div class="hero-content">
         <span class="eyebrow">PREMIUM • FUTURISTIC • PRACTICAL</span>
         <h1>Sports updates,<br />re-designed for maximum flex.</h1>
         <p>
-          A clean, premium sports updates dashboard with search, filters, favorites,
-          likes, quick details, and a strong futuristic UI.
+          A premium sports updates dashboard with clean cards, search, filters,
+          favorites, likes, modal details, theme switching, and a strong futuristic design.
         </p>
 
-        <div class="hero__actions">
-          <a href="#updates" class="btn btn--primary">Explore Updates</a>
-          <a href="#connect" class="btn btn--secondary">Join Community</a>
+        <div class="hero-actions">
+          <a href="#updates" class="btn btn-primary">Explore Updates</a>
+          <a href="#connect" class="btn btn-secondary">Join Community</a>
         </div>
 
-        <div class="hero__metrics">
+        <div class="hero-metrics">
           <article class="metric-card">
-            <span class="metric-card__label">Coverage</span>
+            <span class="metric-label">Coverage</span>
             <strong>4 Sports</strong>
             <small>Football • Cricket • Basketball • F1</small>
           </article>
 
           <article class="metric-card">
-            <span class="metric-card__label">Features</span>
+            <span class="metric-label">Features</span>
             <strong>Smart UI</strong>
-            <small>Search • Filters • Likes • Favorites • Theme</small>
+            <small>Search • Filters • Theme • Likes • Favorites</small>
           </article>
         </div>
       </div>
 
-      <aside class="hero__panel" id="dashboard">
-        <div class="glass-panel glass-panel--hero">
+      <aside class="hero-panel" id="dashboard">
+        <div class="glass-panel">
           <div class="panel-head">
             <span></span><span></span><span></span>
           </div>
 
           <div class="panel-body">
-            <span class="eyebrow eyebrow--small">LIVE MODE</span>
+            <span class="eyebrow small">LIVE MODE</span>
             <h2>Matchday Console</h2>
 
             <div class="score-stack">
-              <article class="score-card score-card--accent">
+              <article class="score-card accent">
                 <div>
                   <p>Football</p>
                   <h3>Neon FC vs Metro XI</h3>
@@ -132,35 +118,35 @@
     <!-- Ticker -->
     <section class="ticker-section" aria-label="Sports ticker">
       <div class="ticker">
-        <div class="ticker__track" id="tickerTrack"></div>
+        <div class="ticker-track" id="tickerTrack"></div>
       </div>
     </section>
 
     <!-- Dashboard Row -->
     <section class="dashboard-row">
       <article class="dashboard-card">
-        <span class="dashboard-card__tag">Trending</span>
+        <span class="dashboard-tag">Trending</span>
         <h3>Transfer Watch</h3>
-        <p>Track major moves, shortlist targets, rumored switches, and late signings.</p>
+        <p>Track major moves, rumored switches, and late signings with clean pro cards.</p>
       </article>
 
       <article class="dashboard-card">
-        <span class="dashboard-card__tag">Performance</span>
+        <span class="dashboard-tag">Performance</span>
         <h3>Power Rankings</h3>
-        <p>View momentum-based ranking cards with a clean pro-sports layout.</p>
+        <p>View momentum-based insights and sorted update cards for a premium experience.</p>
       </article>
 
       <article class="dashboard-card">
-        <span class="dashboard-card__tag">Analysis</span>
+        <span class="dashboard-tag">Analysis</span>
         <h3>Quick Breakdowns</h3>
-        <p>Readable sports update cards designed for both mobile and desktop.</p>
+        <p>Readable sports update cards designed to look sharp on both mobile and desktop.</p>
       </article>
     </section>
 
     <!-- Controls -->
     <section class="controls-section" id="updates">
       <div class="section-header">
-        <span class="eyebrow eyebrow--small">SMART FILTERS</span>
+        <span class="eyebrow small">SMART FILTERS</span>
         <h2>Top Sports Updates</h2>
         <p>
           Search updates, filter by sport, sort by newest or most liked, and save your favorites.
@@ -204,19 +190,19 @@
       <div id="emptyState" class="empty-state hidden">
         <h3>No updates matched your search</h3>
         <p>Try another keyword or reset the filters.</p>
-        <button id="resetFiltersBtn" class="btn btn--primary">Reset Filters</button>
+        <button id="resetFiltersBtn" class="btn btn-primary">Reset Filters</button>
       </div>
     </section>
 
     <!-- Favorites -->
     <section class="favorites-pane" id="favorites">
-      <div class="section-header section-header--inline">
+      <div class="section-header inline">
         <div>
-          <span class="eyebrow eyebrow--small">YOUR PICKS</span>
+          <span class="eyebrow small">YOUR PICKS</span>
           <h2>Saved Favorites</h2>
         </div>
 
-        <button id="clearFavoritesBtn" class="btn btn--secondary btn--sm">
+        <button id="clearFavoritesBtn" class="btn btn-secondary btn-sm">
           Clear Favorites
         </button>
       </div>
@@ -231,7 +217,7 @@
     <!-- Community -->
     <section class="testimonials" id="community">
       <div class="section-header">
-        <span class="eyebrow eyebrow--small">COMMUNITY FEEL</span>
+        <span class="eyebrow small">COMMUNITY FEEL</span>
         <h2>Why this design hits hard</h2>
         <p>Built to look premium, feel modern, and still stay simple to use and edit.</p>
       </div>
@@ -261,11 +247,9 @@
     <section class="connect-section" id="connect">
       <div class="connect-card">
         <div>
-          <span class="eyebrow eyebrow--small">CONTACT / NEWSLETTER</span>
+          <span class="eyebrow small">CONTACT / NEWSLETTER</span>
           <h2>Join the next wave of updates</h2>
-          <p>
-            This form works on the front end with validation and success feedback.
-          </p>
+          <p>This form works on the front end with validation and success feedback.</p>
         </div>
 
         <form id="contactForm" class="contact-form" novalidate>
@@ -299,7 +283,7 @@
             ></textarea>
           </label>
 
-          <button type="submit" class="btn btn--primary">Send Message</button>
+          <button type="submit" class="btn btn-primary">Send Message</button>
           <p id="formFeedback" class="form-feedback"></p>
         </form>
       </div>
@@ -319,27 +303,27 @@
     role="dialog"
     aria-labelledby="modalTitle"
   >
-    <div class="modal__overlay" id="modalOverlay"></div>
+    <div class="modal-overlay" id="modalOverlay"></div>
 
-    <div class="modal__card">
-      <button id="modalCloseBtn" class="icon-btn modal__close" aria-label="Close details">
+    <div class="modal-card">
+      <button id="modalCloseBtn" class="icon-btn modal-close" aria-label="Close details">
         ✕
       </button>
 
-      <div class="modal__header">
-        <span id="modalBadge" class="modal__badge"></span>
+      <div class="modal-header">
+        <span id="modalBadge" class="modal-badge"></span>
         <h3 id="modalTitle"></h3>
-        <p id="modalMeta" class="modal__meta"></p>
+        <p id="modalMeta" class="modal-meta"></p>
       </div>
 
-      <div class="modal__body">
+      <div class="modal-body">
         <p id="modalDescription"></p>
 
-        <div class="modal__actions">
-          <button id="modalFavoriteBtn" class="btn btn--secondary btn--sm">
+        <div class="modal-actions">
+          <button id="modalFavoriteBtn" class="btn btn-secondary btn-sm">
             ★ Save to Favorites
           </button>
-          <button id="modalLikeBtn" class="btn btn--primary btn--sm">
+          <button id="modalLikeBtn" class="btn btn-primary btn-sm">
             ♥ Like Update
           </button>
         </div>
@@ -350,7 +334,6 @@
   <!-- Toast -->
   <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
 
-  <!-- Correct JS link -->
   <script src="script.js"></script>
 </body>
 </html>
